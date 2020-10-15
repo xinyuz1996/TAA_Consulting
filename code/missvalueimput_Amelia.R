@@ -5,9 +5,12 @@ library(readr) # read_delim
 
 # read data
 main_path= "F:/zxy/Project/TAA/TAA_Consulting/"
-data <- readr::read_delim("F:/zxy/Project/TAA/TAA_Consulting/data/tabular data.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
-str(data)
+data <- readr::read_delim("F:/zxy/Project/TAA/TAA_Consulting/data/tabular data_w_composites.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+# data <- readr::read_delim("F:/zxy/Project/TAA/TAA_Consulting/data/tabular.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 
+str(data)
+dim(data)
+summary(data)
 # export missing value
 pMiss <- function(x){sum(is.na(x))/length(x)*100}
 psMiss <- round(apply(data,2,pMiss), 2)
