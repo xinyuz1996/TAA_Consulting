@@ -17,7 +17,7 @@ TAA.data[16,7]=1
 adopt_data<-TAA.data[c("Q6box_1","Q6box_2","Q6box_3")]
 adopt_comp<-apply(adopt_data,1,sum,na.rm=TRUE)/6
 TAA.data$adoption_score<-adopt_comp
-TAA.data$adoption_score<-scale(tabular.data_final$adoption_score)
+TAA.data$adoption_score<-scale(TAA.data$adoption_score)
 
 #Create Composite TAA Score-Treating Other as group 2
 TAA_capability_data<-TAA.data[c("Q22_box1","Q22_box2","Q22_box3","Q22_box4","Q22_box5","Q22_box6",
@@ -60,12 +60,14 @@ for(i in 1:length(TAA_capability_score)){
   TAA_capability_score[i]=score/max_score
 }
 TAA.data$TAA_capability<-TAA_capability_score
-TAA.data$TAA_capability<-scale(tabular.data_final$TAA_capability)
+TAA.data$TAA_capability<-scale(TAA.data$TAA_capability)
 
 #Domestic vs. International Composite
 dom_int_data<-TAA_capability_data<-TAA.data[c("Q24_box1","Q24_box2","Q24_box3","Q24_box4")]
 dom_int<-ifelse(is.na(dom_int_data[,4]),0,1)
 TAA.data$Domestic_International<-dom_int
+NA_index=apply(is.na(TAA.data[c("Q24_box1","Q24_box2","Q24_box3","Q24_box4")]),1,all)
+TAA.data$Domestic_International[NA_index]=NA
 
 columns_to_remove<-c("Q5_1","Q5_2","Q5_3","Q5_4","Q5_5","Q5_6","Q6box_1","Q6box_2",
                      "Q6box_3","Q6box_4","Q6_score","Q10_1","Q10_2","Q10_3","Q10_4",
@@ -76,5 +78,8 @@ columns_to_remove<-c("Q5_1","Q5_2","Q5_3","Q5_4","Q5_5","Q5_6","Q6box_1","Q6box_
                      "Q32_4","Q42","Q45","Q43","Q44")
 TAA.data<-TAA.data[,!names(TAA.data) %in% columns_to_remove]
 
-write.table(tabular.data_final, file = "tabular data_final.txt", sep = "\t", col.names = TRUE,
+write.table(TAA.data, file = "tabular data_final.txt", sep = "\t", col.names = TRUE,
             row.names = FALSE)
+
+NA_index=apply(is.na(tabular.data_w_composites[c("Q24_box1","Q24_box2","Q24_box3","Q24_box4")]),1,all)
+tabular.data_final$Domestic_International[NA_index]=NA

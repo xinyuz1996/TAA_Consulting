@@ -10,13 +10,13 @@ init_data<-apply(init_data,2,function(x){ifelse(x==6,NA,x)}) #Add Missing Values
 table(complete.cases(init_data)) #Tabulate Missing values
 
 ###Warning 2 Composites may be more appropriate
-pca_init<-princals(init_data,ndim=1,missing = "a",degrees=2) #Impute, transform, do PCA
+pca_init<-princals(init_data,ndim=2,missing = "a",degrees=2) #Impute, transform, do PCA
 pca_init$evals #Examine Eigenvalues
 plot(1:length(pca_init$evals),pca_init$evals,main="Scree Plot",
      xlab="Number of Components",ylab = "Eigenvalues",type="b") #Examine Scree Plot
 plot(pca_init, plot.type = "transplot") #Examine Transformed Scores
 init_score<-pca_init$objectscores[,1]
-
+barplot(pca_init$loadings[,1])
 
 
 #Routinization Response Variable
