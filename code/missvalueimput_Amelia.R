@@ -5,7 +5,7 @@ library(readr) # read_delim
 
 # read data
 main_path= "F:/zxy/Project/TAA/TAA_Consulting/"
-data <- readr::read_delim("F:/zxy/Project/TAA/TAA_Consulting/data/tabular data_w_composites.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+data <- readr::read_delim("F:/zxy/Project/TAA/TAA_Consulting/data/tabular data_final.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 # data <- readr::read_delim("F:/zxy/Project/TAA/TAA_Consulting/data/tabular.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 
 str(data)
@@ -18,6 +18,26 @@ psMiss <- psMiss[order(psMiss, decreasing = T)]
 missing_percentage <- paste(psMiss,"%", sep="")
 missMat <- cbind(c(1:56), names(psMiss), missing_percentage)
 knitr::kable(missMat)
+# # 1. add Q22 to READINESS
+# # 2. normalize data
+attach(data)
+
+reg_initiation <- lm(init_composite ~ TAA_capability + integrate_composite + Q26_num + Domestic_International
+   + manag_composite + comp_composite  + gov_composite  , data=data)
+summary(reg_initiation)
+plot(reg_initiation)
+
+
+reg_adoption <- lm(adoption_score ~ TAA_capability + integrate_composite + Q26_num + Domestic_International
+                     + manag_composite + comp_composite  + gov_composite  , data=data)
+summary(reg_adoption)
+plot(reg_adoption)
+
+
+reg_routinization <- lm(rout_composite ~ TAA_capability + integrate_composite + Q26_num + Domestic_International
+                     + manag_composite + comp_composite  + gov_composite  , data=data)
+summary(reg_routinization)
+plot(reg_routinization)
 
 # plot missing map
 missmap(data)
