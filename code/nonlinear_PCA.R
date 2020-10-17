@@ -1,6 +1,7 @@
 library(Gifi)
-
-TAA.data <- read.delim("~/ST841/TAA_Consulting/data/tabular data.txt")
+main_path = "~/ST841/TAA_Consulting/data/tabular data.txt"
+# main_path = "../data/tabular data.txt"
+TAA.data <- read.delim(main_path)
 
 #Init Response Varaible
 init_data_names<-c("Q5_1","Q5_2","Q5_3","Q5_4","Q5_5","Q5_6") #Set Aside Data
