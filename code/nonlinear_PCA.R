@@ -11,7 +11,7 @@ init_data<-apply(init_data,2,function(x){ifelse(x==6,NA,x)}) #Add Missing Values
 table(complete.cases(init_data)) #Tabulate Missing values
 
 ###Warning 2 Composites may be more appropriate
-pca_init<-princals(init_data,ndim=2,missing = "a",degrees=2) #Impute, transform, do PCA
+pca_init<-princals(init_data,ndim=1,missing = "a",degrees=2) #Impute, transform, do PCA
 pca_init$evals #Examine Eigenvalues
 plot(1:length(pca_init$evals),pca_init$evals,main="Scree Plot",
      xlab="Number of Components",ylab = "Eigenvalues",type="b") #Examine Scree Plot
@@ -60,7 +60,7 @@ manag_data<-apply(manag_data,2,function(x){ifelse(x==6,NA,x)}) #Add Missing Valu
 table(complete.cases(manag_data)) #Tabulate Missing values
 
 ##Strong Evidence of 2 components
-pca_manag<-princals(manag_data,ndim=1,missing = "a",degrees=2) #Impute, transform, do PCA
+pca_manag<-princals(manag_data,ndim=2,missing = "a",degrees=2) #Impute, transform, do PCA
 pca_manag$evals #Examine Eigenvalues
 plot(1:length(pca_manag$evals),pca_manag$evals,main="Scree Plot",
      xlab="Number of Components",ylab = "Eigenvalues",type="b") #Examine Scree Plot
