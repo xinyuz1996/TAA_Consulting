@@ -61,6 +61,7 @@ data_imput <- read_delim("./data/tabular data_impute.txt", "\t", escape_double =
 lm_init <- lm(Y1_initiation ~ X1_readiness + X2_integration + X3_firmSize + X4_global + X5_manag + X6_compet + X7_regulatory, data=data_imput)
 lm_adopt <- lm(Y2_adoption ~ X1_readiness + X2_integration + X3_firmSize + X4_global + X5_manag + X6_compet + X7_regulatory, data=data_imput)
 lm_rout <- lm(Y3_routinization ~ X1_readiness + X2_integration + X3_firmSize + X4_global + X5_manag + X6_compet + X7_regulatory, data=data_imput)
+
 summary(lm_init); plot(lm_init)
 summary(lm_adopt); plot(lm_adopt)
 summary(lm_rout); plot(lm_rout)
