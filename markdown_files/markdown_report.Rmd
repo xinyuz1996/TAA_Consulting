@@ -1,0 +1,39 @@
+---
+title: "CodeReport ST841 TAA Project"
+author: "Andrew Hollis, Xinyu Zhang, and Qiang Heng"
+date: "10/26/2020"
+output: html_document
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+This document is meant to explain and demonstrate the implementation of all analysis performed on the TAA dataset.
+
+## Data Transformations
+We took the original data and performed several important transformations. 
+
+First we read in the initial data file:
+```{r}
+init_TAA_data<-read.delim("initial_data.txt")
+init_TAA_data$Q26_num<-as.numeric(init_TAA_data$Q26_num) #Insure Q26_num is actually numeric
+init_TAA_data$Q29_num<-as.numeric(as.character(init_TAA_data$Q29_num)) #Insure Q29_num is actually numeric
+```
+
+We then remove the variables that are not as interesting for analysis these include the data from Q42, Q43, Q44, and Q45 which are demographic data about the respondent. We will also compute new summary score for question 6 from the survey, so we remove this as well. 
+
+```{r}
+removal_list<-c("Q42","Q43","Q44","Q45","Q6_score")
+init_TAA_data<-init_TAA_data[, !(names(init_TAA_data) %in%removal_list)]
+```
+
+### Dealing with Likert Scale Items
+Questions 5, 10, 23, 30, 31, and 32 are composed of several 5-item Likert scale sub-questions. Each of these questions represents a single underlying conceptual variable. For instance, the 6 subquestions from question 5 together measure the extent to which a business considered various business objectives as they intially considered whether they would try TAA tools. We would like to create a one-dimensional measure that represents the level of this initial TAA consideration for a particular company. 
+
+
+
+
+
