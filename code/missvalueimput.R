@@ -1,3 +1,4 @@
+
 rm(list = ls())
 
 library(knitr) # kable
@@ -15,6 +16,7 @@ data = rename(data,  Y1_initiation = init_composite, Y2_adoption = adoption_scor
               X7_regulatory = gov_composite)
 data_imput = data = as.data.frame( data %>% select(Y1_initiation, Y2_adoption, Y3_routinization, X1_readiness, X2_integration, X3_firmSize,
                 X4_global, X5_manag, X6_compet, X7_regulatory) )
+data$X4_global <- as.factor(data$X4_global)
 names(data)
 summary(data)
 missmap(data)
@@ -22,7 +24,7 @@ missmap(data)
 #### Impute missing value ----------------------------------------------------------------------------------------
 
 m = 5 # number of simulated datsets to create # See definition of m in ?amelia()
-data_amelia <- amelia(x = data, logs="X3_firmSize", m = 5)
+data_amelia <- amelia(x = data, logs="X3_firmSize", noms="X4_global" ,m = 5)
 
 # Average the imputations between different simulated datasets
 for( col in c(6:7)){
@@ -39,18 +41,17 @@ data_new = scale(data_imput)
 data_orig <- readr::read_delim("./data/tabular data.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 par(mfrow=c(1,1))
 data_orig <- as.data.frame(data_orig)
-missmap(data_orig, main="Missingness Map")
+# missmap(data_orig, main="Missingness Map")
 
 
 par(mfrow=c(2,1), mar=c(2, 3, 2, 3))
 plot(data_amelia)
 compare.density(data_amelia, var="X3_firmSize")
-compare.density(data_amelia, var="X4_global", legend=F)
+boxplot( data_imput$X4_global )
 
 par(mfrow=c(2,1), mar=c(2, 3, 2, 3))
 boxplot(data_imput$X3_firmSize, main="Boxplot for X3_firmSize", horizontal=T)
 compare.density(data_amelia, var="X3_firmSize")
-boxplot(data_imput$X3_firmSize[-c(27, 46)], main="Boxplot for X3_firmSize", horizontal=T)
 order(data_imput$X3_firmSize)
 
 which(data_imput$X3_firmSize == max(data_imput$X3_firmSize))
@@ -78,3 +79,4 @@ summary(lm_rout); plot(lm_rout)
 
 
 
+4
