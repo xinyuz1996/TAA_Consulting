@@ -8,6 +8,10 @@ bibliography: references.bib
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(knitr) # kable
+library(readr) # read_delim
+library(dplyr) # manipulate data
+library(Amelia) # missing value imputation
 ```
 
 ## Introduction
@@ -23,7 +27,25 @@ init_TAA_data$X3_firmSize <- as.numeric(init_TAA_data$Q26_num) # Insure Q26_num 
 init_TAA_data$Q29_num<-as.numeric(as.character(init_TAA_data$Q29_num)) #Insure Q29_num is actually numeric
 ```
 
+### Preview the missing value 
+
+```{r}
+missmap(init_TAA_data)
+```
+
+The above plot shows how the missing value is distributed among the data. The X-axis represent the variables that have missing value, and the y-axis shows the observation.
+
+For some observation such as 1, 2, and 5, we could see there are too much missing values, thus it might need further consideration that if we should include those data with most variables missing.
+
+For the variables from left to right, the missing proportion for each variable is decreasing, which need our further attention to select the proper variable for analysis.
+
+
+
 ```{r,echo=FALSE}
+# Delete observations with too much missing value
+null_observations = c(1, 2, 5)
+init_TAA_data = init_TAA_data[-null_observations,]
+
 #Correct the Anamolous and Strange Data Mistake 
 prev=init_TAA_data[1,7:10]
 init_TAA_data[1,7:10]=init_TAA_data[68,7:10]
@@ -236,9 +258,66 @@ Using str(), we can see how many observations and how many variables are there i
 str(TAA_data)
 ```
 
+In this data set, we have three response variables (dependent variable), named as $Y_1$,$Y_2$, and $Y_3$, while other seven predictors (independent variable) named as $X_1, \cdots, X_7$. There are 65 observations since three of them have too much missing value and has been ignored for the following analysis.
+
+
+```{r}
+missmap(TAA_data)
+```
+
+
+### Missing Value imputation in Amelia
+
+Here the log transformation has been applied to the X3_firmSize since the range for the firm size is too large, and a log transformation would help to suppress the extreme large value of this variable.
+
+```{r}
+boxplot(TAA_data$X3_firmSize, main="Boxplot for X3_firmSize", horizontal=T)
+```
+
+Besides, since the global size is a categorical variable (nominal variable), we want to specify this in the following function.
+
+```{r}
+m = 5 # number of simulated datsets to create # See definition of m in ?amelia()
+TAA_data_amelia <- amelia(x = TAA_data, logs="X3_firmSize", noms="X4_global", m = m)
+str(TAA_data_amelia$imputations$imp1)
+
+TAA_data_impute <- TAA_data
+# Average the imputations between different simulated datasets
+col_index = which(names(TAA_data_amelia$imputations$imp1) %in% c("X3_firmSize", "X4_global"))
+for( col in col_index){
+  temp=numeric()
+  for (i in 1:m){
+    temp = cbind(temp, TAA_data_amelia$imputations[[i]][,col])
+  }
+  TAA_data_impute[,col] = apply(temp, 1, mean)
+}
+```
+
+
+```{r}
+missmap(TAA_data_impute)
+```
+
+Now we can see there are no missing values in the data set, and the further regression analysis can be done.
+
+Let's look at the summary of the missing value imputations
+```{r}
+str(TAA_data_impute)
+```
+
+
+
+
 
 
 ### Multivariate Regression Analysis (Qiang)
+
+
+```{r}
+TAA_data_scale = scale(TAA_data_impute)
+```
+
+
 
 ### Regression Trees (Drew)
 

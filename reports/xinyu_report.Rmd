@@ -1,0 +1,131 @@
+---
+title: "Missing Value Imputation"
+author: "Xinyu Zhang"
+date: "2020/10/1"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(Amelia)
+```
+
+
+
+To begin with, after Qiang extracting the data from excel into a readable txt file, we take a look at this new dataset. 
+
+```{r data, echo=FALSE, message=FALSE}
+main_path= "F:/zxy/Project/TAA/TAA_Consulting/"
+data <- readr::read_delim("F:/zxy/Project/TAA/TAA_Consulting/data/tabular data.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+str(data)
+dim(data)
+```
+
+As we can see, there are 68 observations and 56 variables in the data.
+
+However, our targeted analysis would be mainly based on the three dependent variables as introduced in Zhu, Kraemer, and Xu (2006):
+
+
+
+\begin{itemize}
+    \item 1. initiation
+    \item 2. adoption
+    \item 3. routinization.
+\end{itemize}
+
+
+and five factors:
+
+\begin{itemize}
+    \item   1. technological readiness
+    \item   2. technology integration
+    \item   3. managerial obstacles
+    \item   4. competition intensity
+    \item   5. regulartory environment
+\end{itemize}
+
+
+## First Problem to Solve  --- Factor Analysis 
+    
+Thus, our first question is how to combine the 56 variables into eight useful variables, and based on which conduct future analysis.
+
+
+## Second Problem to Solve --- Variable Definition
+
+We also noticed that the type of variable as "-attr(*, "spec")=" shows still need further cleaning, that is, we need to define type of variables more carefully indicating whether it is numerical value,  categorical variable, or ordered variable.
+
+## Third Problem to Solve --- Missing Value Imputation
+
+Next, we look at the proportion of missing values for the 56 variables in the dataset.
+
+```{r}
+pMiss <- function(x){sum(is.na(x))/length(x)*100}
+psMiss <- round(apply(data,2,pMiss), 2)
+psMiss <- psMiss[order(psMiss, decreasing = T)]
+missing_percentage <- paste(psMiss,"%", sep="")
+missMat <- cbind(c(1:56),names(psMiss), missing_percentage)
+knitr::kable(missMat)
+```
+
+We can see that there are many missing values in the survey, for which a missing value imputation might be useful. 
+```{r, warning=FALSE, message=FALSE}
+# plot missing map
+missmap(data)
+```
+
+
+The above plot shows how the missing value is distributed among the data. The x-axis represent the variables that have missing value, and the y-axis shows the observation.
+
+For some observation such as 1, 2, and 5, we could see there are too much missing values, thus it might need further consideration that if we should include those data with most variables missing.
+
+For the variables from left to right, the missing proportion for each variable is decreasing, which need our further attention to select the proper variable for analysis.
+
+## Missing Value imputation for regular variables without considering Likrt scale
+
+```{r}
+# add na as a new factor level for each categorical variable
+
+# delete variables that have more than 50% missing value
+mis50 <- c(1:56)[which(round(apply(data,2,pMiss), 2) > 50)]
+data1 <- data[,-mis50] # reduce 15 variables
+dim(data1)
+
+# use EM Algorithm to impute missing value, take column 7-11 as example
+missP <- round(apply(data1,2,pMiss), 2)
+index <- which((missP < 20 & missP > 10) )
+names(data)[index]
+dat_ame <- as.data.frame(data1[,index])
+m=5
+a.out <- amelia(x = dat_ame, m=m)
+```
+
+Notice that there are observations in the data that are completely missing, thus these observations will remain unimputed in the final datasets. This is because we only select several variable for illustration, in real application, as long as the obseration has one variable that's not missing, it can be imputed.
+
+
+```{r}
+summary(a.out)
+```
+
+This table output the iterations it takes to impute each variable as well the proportion of the  missing value.
+
+
+
+```{r}
+compare.density(a.out, var="Q6_score")
+```
+
+As the figure shows, the blue curve is the distribution curve for the original observed data without those missing records. The red curve is the distrbution curve of the "mean" imputed data. 
+
+Why here has a "mean"? Recall that m is the number of imputed datasets to create. When m is set to 1, the red curve is exactly the distrbution of the only imputed data. 
+But usually, m is set to be larger such as 5, and the final imputed value would be the average of the five imputed values, which give us a more reliable result. Thus the "mean" here means the average of several parallel imputations.
+
+
+```{r}
+plot(a.out)
+```
+
+As we can see, the two curves vary a lot, and more subject knowledge can also be considered to correct the bias in imputation after knowing an ideal distribution.
+
+
+  
+
