@@ -6,7 +6,7 @@ output: html_document
 bibliography: references.bib
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=TRUE}
 knitr::opts_chunk$set(echo = TRUE)
 library(knitr) # kable
 library(readr) # read_delim
@@ -42,9 +42,11 @@ For the variables from left to right, the missing proportion for each variable i
 
 
 ```{r,echo=FALSE}
-# Delete observations with too much missing value
-null_observations = c(1, 2, 5)
-init_TAA_data = init_TAA_data[-null_observations,]
+
+## TODO!!!
+# # Delete observations with too much missing value
+# null_observations = c(1, 2, 5)
+# init_TAA_data = init_TAA_data[-null_observations,]
 
 #Correct the Anamolous and Strange Data Mistake 
 prev=init_TAA_data[1,7:10]
@@ -244,17 +246,20 @@ init_TAA_data$Domestic_International[NA_index] = NA #Assign missingness pattern
 
 ### Data Imputation (Xinyu)
 
-
 **Here, the data is renamed to prepare for the future analysis with a clearer variable**
+
 ```{r}
-names(init_TAA_data)
-TAA_data <- init_TAA_data[,c(32:41)]
-names(TAA_data)
-names(TAA_data) <- c("X3_firmSize" , "Y1_initialization", "Y3_routinization", "X2_integration", "X5_manag", "X6_compete", "X7_gov", "Y2_adoption", "X1_readiness", "X4_global" )
+# names(init_TAA_data)
+TAA_data <- init_TAA_data[-c(1, 2, 5), c(32:41)]
+oldnames <- names(TAA_data)
+newnames <- c("X3_firmSize" , "Y1_initialization", "Y3_routinization", "X2_integration", "X5_manag", "X6_compete", "X7_gov", "Y2_adoption", "X1_readiness", "X4_global" )
+names(TAA_data) <- newnames
+rbind(oldnames, newnames)
 ```
 
 Using str(), we can see how many observations and how many variables are there in the data set.
 ```{r}
+TAA_data$X4_global <- as.factor(TAA_data$X4_global)
 str(TAA_data)
 ```
 
@@ -278,7 +283,7 @@ Besides, since the global size is a categorical variable (nominal variable), we 
 
 ```{r}
 m = 5 # number of simulated datsets to create # See definition of m in ?amelia()
-TAA_data_amelia <- amelia(x = TAA_data, logs="X3_firmSize", noms="X4_global", m = m)
+TAA_data_amelia <- amelia(x = TAA_data, logs="X3_firmSize", noms="X4_global", m = m) # 
 str(TAA_data_amelia$imputations$imp1)
 
 TAA_data_impute <- TAA_data
@@ -291,6 +296,8 @@ for( col in col_index){
   }
   TAA_data_impute[,col] = apply(temp, 1, mean)
 }
+
+TAA_data_impute$X4_global <- round((TAA_data_impute$X4_global))
 ```
 
 
@@ -300,22 +307,38 @@ missmap(TAA_data_impute)
 
 Now we can see there are no missing values in the data set, and the further regression analysis can be done.
 
-Let's look at the summary of the missing value imputations
+Let's look at the summary of the missing value imputations.
 ```{r}
-str(TAA_data_impute)
+summary(TAA_data_impute)
 ```
 
 
 
+```{r}
+par(mfrow=c(2,1), mar=c(2, 3, 2, 3))
+X4_orig <- table(as.character(TAA_data$X4_global), useNA = "ifany")
+X4_impute <- c(table(TAA_data_impute$X4_global), 0)
+rbind(X4_orig, X4_impute)
+
+par(mfrow=c(2,1), mar=c(2, 3, 2, 3))
+compare.density(TAA_data_amelia, var="X3_firmSize")
+```
 
 
+Hence, the TAA_data_impute or TAA_data_scale can be applied to the following analysis
+
+```{r}
+# 1. log transformation of firmSize
+TAA_data_impute$X3_firmSize <- log(TAA_data_impute$X3_firmSize)
+# 2. scale of data
+TAA_data_scale = scale(TAA_data_impute)
+str(TAA_data_scale)
+```
 
 ### Multivariate Regression Analysis (Qiang)
 
 
-```{r}
-TAA_data_scale = scale(TAA_data_impute)
-```
+
 
 
 
