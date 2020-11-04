@@ -19,7 +19,7 @@ We took the original data and performed several important transformations.
 First we read in the initial data file:
 ```{r}
 init_TAA_data<-read.delim("initial_data.txt")
-init_TAA_data$Q26_num<-as.numeric(init_TAA_data$Q26_num) #Insure Q26_num is actually numeric
+init_TAA_data$X3_firmSize <- as.numeric(init_TAA_data$Q26_num) # Insure Q26_num is actually numeric
 init_TAA_data$Q29_num<-as.numeric(as.character(init_TAA_data$Q29_num)) #Insure Q29_num is actually numeric
 ```
 
@@ -34,7 +34,7 @@ for(i in 2:68){
 }
 ```
 
-We then remove the variables that are not as interesting for analysis these include the data from Q42, Q43, Q44, and Q45 which are demographic data about the respondent. We will also compute new summary score for question 6 from the survey, so we remove this as well. 
+We then remove the variables that are not as interesting for analysis, and these include the data from Q42, Q43, Q44, and Q45 which are demographic data about the respondent. We will also compute new summary score for question 6 from the survey, so we remove this as well. 
 
 ```{r}
 removal_list<-c("Q42","Q43","Q44","Q45","Q6_score")
@@ -129,7 +129,7 @@ init_TAA_data$integrate_composite<-integ_score
 init_TAA_data$manag_composite<-manag_score
 init_TAA_data$comp_composite<-comp_score
 init_TAA_data$gov_composite<-gov_score
-
+str(init_TAA_data)
 #Create Loadings Plots
 par(mfrow=c(2,3))
 barplot(pca_init$loadings[,1],main="Initiation Composite")
@@ -213,14 +213,30 @@ init_TAA_data$TAA_capability<-scale(init_TAA_data$TAA_capability)
 Q24 measures the global extent of a company. We transform this variable into a binary variable that is 0 if the company only has domestic offices and 1 if the company has foreign offices.
 
 ```{r}
-dom_int_data<-init_TAA_data<-init_TAA_data[c("Q24_box1","Q24_box2","Q24_box3","Q24_box4")]
+dom_int_data<-init_TAA_data[c("Q24_box1","Q24_box2","Q24_box3","Q24_box4")]
 dom_int<-ifelse(is.na(dom_int_data[,4]),0,1) #Create binary variable
 init_TAA_data$Domestic_International<-dom_int
 NA_index=apply(is.na(init_TAA_data[c("Q24_box1","Q24_box2","Q24_box3","Q24_box4")]),1,all) #Determine which values are missing
-init_TAA_data$Domestic_International[NA_index]=NA #Assign missingness pattern
+init_TAA_data$Domestic_International[NA_index] = NA #Assign missingness pattern
 ```
 
 ### Data Imputation (Xinyu)
+
+
+**Here, the data is renamed to prepare for the future analysis with a clearer variable**
+```{r}
+names(init_TAA_data)
+TAA_data <- init_TAA_data[,c(32:41)]
+names(TAA_data)
+names(TAA_data) <- c("X3_firmSize" , "Y1_initialization", "Y3_routinization", "X2_integration", "X5_manag", "X6_compete", "X7_gov", "Y2_adoption", "X1_readiness", "X4_global" )
+```
+
+Using str(), we can see how many observations and how many variables are there in the data set.
+```{r}
+str(TAA_data)
+```
+
+
 
 ### Multivariate Regression Analysis (Qiang)
 
