@@ -330,8 +330,11 @@ Hence, the TAA_data_impute or TAA_data_scale can be applied to the following ana
 ```{r}
 # 1. log transformation of firmSize
 TAA_data_impute$X3_firmSize <- log(TAA_data_impute$X3_firmSize)
+# 2. Make global a binary variable
+TAA_data_impute$X4_global <- as.factor(TAA_data_impute$X4_global)
 # 2. scale of data
-TAA_data_scale = scale(TAA_data_impute)
+TAA_data_scale = cbind(scale(TAA_data_impute[,1:9]),TAA_data_impute[,10])
+colnames(TAA_data_scale)[10]="X4_global"
 str(TAA_data_scale)
 ```
 
