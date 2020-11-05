@@ -2,7 +2,9 @@
 title: "CodeReport ST841 TAA Project"
 author: "Andrew Hollis, Xinyu Zhang, and Qiang Heng"
 date: "10/26/2020"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 bibliography: references.bib
 ---
 
@@ -12,6 +14,7 @@ library(knitr) # kable
 library(readr) # read_delim
 library(dplyr) # manipulate data
 library(Amelia) # missing value imputation
+library(Hmisc) #correlation matrix
 ```
 
 ## Introduction
@@ -332,17 +335,86 @@ Hence, the TAA_data_impute or TAA_data_scale can be applied to the following ana
 TAA_data_impute$X3_firmSize <- log(TAA_data_impute$X3_firmSize)
 # 2. Make global a binary variable
 TAA_data_impute$X4_global <- as.factor(TAA_data_impute$X4_global)
-# 2. scale of data
-TAA_data_scale = cbind(scale(TAA_data_impute[,1:9]),TAA_data_impute[,10])
-colnames(TAA_data_scale)[10]="X4_global"
-str(TAA_data_scale)
 ```
 
 ### Multivariate Regression Analysis (Qiang)
+First we want to calculate the correlation matrix of all the variables. Notice that global scale is a binary variable and the correlation between it and other variables does not mean much. We choose to include it just in case you need it anyway. The first following matrix is the correlation matrix, while the second is the corresponding p values for those correlations.
+```{r}
+#permute the columns of the data
+TAA_data_final <- TAA_data_impute[,c(9,4,1,10,5,6,7,2,8,3)]
+#calculate and print the correlation matrix 
+rcorr(as.matrix(TAA_data_final))
+```
+Now let's conduct MANOVA to investigate whether each independent variable has a significant impact on all three response variables. These are essentially  likelihood ratio tests to determine whether a reduced model (without a certain independent variable) will be sufficient when compared against the full model. MANOVA is insightful in the sense that it takes potential correlation between response variables into consideration, which is something simple linear regression does not address.
+```{r}
+#extract Y and X from the dataframe
+Y <- TAA_data_final[,8:10]
+X <- TAA_data_final[,1:7]
+X[,4] <- as.numeric(X[,4])
 
+#standardize Y and X so that the intercept is excluded from the regression model
+#after scaling the regression coefficients will be comparable in scale
+Y_scaled <- scale(Y)
+X_scaled <- data.frame(scale(X))
+fullmodel <- lm(Y_scaled~-1+.,data=X_scaled)
+modelwithoutX1 <- lm(Y_scaled~.-1-X1_readiness,data=X_scaled)
+modelwithoutX2 <- lm(Y_scaled~.-1-X2_integration,data=X_scaled)
+modelwithoutX3 <- lm(Y_scaled~.-1-X3_firmSize,data=X_scaled)
+modelwithoutX4 <- lm(Y_scaled~.-1-X4_global,data=X_scaled)
+modelwithoutX5 <- lm(Y_scaled~.-1-X5_manag,data=X_scaled)
+modelwithoutX6 <- lm(Y_scaled~.-1-X6_compete,data=X_scaled)
+modelwithoutX7 <- lm(Y_scaled~.-1-X7_gov,data=X_scaled)
 
+#calculate the likelihood ratio statistics for X1
+anova(fullmodel, modelwithoutX1, test="Wilks")
+anova(fullmodel, modelwithoutX1, test="Pillai")
+anova(fullmodel, modelwithoutX1, test="Hotelling-Lawley")
+anova(fullmodel, modelwithoutX1, test="Roy")
 
+#calculate the likelihood ratio statistics for X2
+anova(fullmodel, modelwithoutX2, test="Wilks")
+anova(fullmodel, modelwithoutX2, test="Pillai")
+anova(fullmodel, modelwithoutX2, test="Hotelling-Lawley")
+anova(fullmodel, modelwithoutX2, test="Roy")
 
+#calculate the likelihood ratio statistics for X3
+anova(fullmodel, modelwithoutX3, test="Wilks")
+anova(fullmodel, modelwithoutX3, test="Pillai")
+anova(fullmodel, modelwithoutX3, test="Hotelling-Lawley")
+anova(fullmodel, modelwithoutX3, test="Roy")
+
+#calculate the likelihood ratio statistics for X4
+anova(fullmodel, modelwithoutX4, test="Wilks")
+anova(fullmodel, modelwithoutX4, test="Pillai")
+anova(fullmodel, modelwithoutX4, test="Hotelling-Lawley")
+anova(fullmodel, modelwithoutX4, test="Roy")
+
+#calculate the likelihood ratio statistics for X5
+anova(fullmodel, modelwithoutX5, test="Wilks")
+anova(fullmodel, modelwithoutX5, test="Pillai")
+anova(fullmodel, modelwithoutX5, test="Hotelling-Lawley")
+anova(fullmodel, modelwithoutX5, test="Roy")
+
+#calculate the likelihood ratio statistics for X6
+anova(fullmodel, modelwithoutX6, test="Wilks")
+anova(fullmodel, modelwithoutX6, test="Pillai")
+anova(fullmodel, modelwithoutX6, test="Hotelling-Lawley")
+anova(fullmodel, modelwithoutX6, test="Roy")
+
+#calculate the likelihood ratio statistics for X7
+anova(fullmodel, modelwithoutX7, test="Wilks")
+anova(fullmodel, modelwithoutX7, test="Pillai")
+anova(fullmodel, modelwithoutX7, test="Hotelling-Lawley")
+anova(fullmodel, modelwithoutX7, test="Roy")
+```
+We can see that X1_readiness, X2_integration and X4_firmsize have a significant overall impact on the response variables. To see exactly which response variables these explanatory variables significantly influences, we pull out the individual regression tables for each response variable.
+```{r}
+modelsummary <- summary(fullmodel)
+modelsummary[[1]]
+modelsummary[[2]]
+modelsummary[[3]]
+```
+We can see that X4_global is significant for initiation, X1_readiness is significant for adoption while X2_integration is significant for routinization. However, significant coefficients are relatively rare(namely one for each response variable).
 
 
 ### Regression Trees (Drew)
