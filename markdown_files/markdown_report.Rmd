@@ -68,6 +68,10 @@ removal_list<-c("Q42","Q43","Q44","Q45","Q6_score")
 init_TAA_data<-init_TAA_data[, !(names(init_TAA_data) %in%removal_list)]
 ```
 
+We also remove observations that are mostly missing. 
+```{r}
+init_TAA_data <- init_TAA_data[-c(64, 67, 68),]
+```
 ### Dealing with Likert Scale Items (Drew)
 Questions 5, 10, 23, 30, 31, and 32 are composed of several 5-item Likert scale sub-questions. Each of these questions represents a single underlying conceptual variable. For instance, the 6 subquestions from question 5 together measure the extent to which a business considered various business objectives as they intially considered whether they would try TAA tools. We would like to create a one-dimensional measure that represents the level of this initial TAA consideration for a particular company. 
 
@@ -184,8 +188,8 @@ We carry out this weighting in R below:
 
 ```{r}
 #Transform 4's
-init_TAA_data[2,9]=3
-init_TAA_data[16,7]=1
+init_TAA_data[2,3]=3
+init_TAA_data[16,1]=1
 
 #Form Adoption Score
 adopt_data<-init_TAA_data[c("Q6box_1","Q6box_2","Q6box_3")]
@@ -253,7 +257,7 @@ init_TAA_data$Domestic_International[NA_index] = NA #Assign missingness pattern
 
 ```{r}
 # names(init_TAA_data)
-TAA_data <- init_TAA_data[-c(1, 2, 5), c(32:41)]
+TAA_data<-init_TAA_data[,32:41]
 oldnames <- names(TAA_data)
 newnames <- c("X3_firmSize" , "Y1_initialization", "Y3_routinization", "X2_integration", "X5_manag", "X6_compete", "X7_gov", "Y2_adoption", "X1_readiness", "X4_global" )
 names(TAA_data) <- newnames
@@ -416,8 +420,51 @@ modelsummary[[3]]
 ```
 We can see that X4_global is significant for initiation, X1_readiness is significant for adoption while X2_integration is significant for routinization. However, significant coefficients are relatively rare(namely one for each response variable).
 
-
 ### Regression Trees (Drew)
+```{r}
+library(rpart)
+library(rpart.plot)
+```
+
+We present regression trees as an alternative analysis to the linear regression models. Regression trees are robust to lack of normality, outliers, and missing values which are problems that weaken the validity of the linear regression models. 
+
+We start with a regression tree model for the initiation variable. 
+
+```{r}
+tree_mod_init<-rpart(Y1_initialization~X3_firmSize+X2_integration+X5_manag+
+                        X6_compete+X7_gov+X1_readiness+X4_global, 
+                      data=TAA_data_final, method="anova",control=list(minsplit=5,cp=0.01))
+rpart.plot(tree_mod_init)
+```
+
+The cp parameter controls the complexity (depth of the tree) for higher values of cp, we get a smaller tree with fewer branches. In each node of the tree, the first number is the mean response in that node and the second number is the percentage of observations in that node. 
+
+For example, the first right split contains 82% of the data, i.e. 82% of the firms have a global presence, and the mean intiation response for these firms with global presence is 0.2. 
+
+Typically, the first splitting variable is interpreted as the most important. Thus, the regression tree seems to indicate that the whether or not a firm has global reach is the most important factor in determining the level of consideration they initially give to employing TAA tools. 
+
+Next we consider a regression tree for the adoption response. 
+```{r}
+
+tree_mod_adopt<-rpart(Y2_adoption~X3_firmSize+X2_integration+X5_manag+
+                       X6_compete+X7_gov+X1_readiness+X4_global, 
+                     data=TAA_data_final, method="anova",control=list(minsplit=5,cp=0.028310))
+rpart.plot(tree_mod_adopt)
+```
+
+The first splitting variable here is technological readiness. Thus, the level of TAA adoption a firm achieves is most impacted by the firm's level of technological readiness.
+
+Finally, we consider a regression tree for the routinziation response:
+
+```{r}
+tree_mod_rout<-rpart(Y3_routinization~X3_firmSize+X2_integration+X5_manag+
+                       X6_compete+X7_gov+X1_readiness+X4_global, 
+                     data=TAA_data_final, method="anova",control=list(minsplit=5,cp=0.025))
+rpart.plot(tree_mod_rout)
+```
+
+In this tree, the first splitting variable is technological integration. Thus, the most important variable that impacts the level of a firm's TAA routinization seems to be the firm's level of technological integration. 
+
 
 
 
