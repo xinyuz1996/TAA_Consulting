@@ -2,7 +2,7 @@
 title: "CodeReport ST841 TAA Project"
 author: "Andrew Hollis, Xinyu Zhang, and Qiang Heng"
 date: "10/26/2020"
-output: html_document
+output: pdf_document
 bibliography: references.bib
 ---
 
