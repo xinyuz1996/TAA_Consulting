@@ -1,10 +1,17 @@
+# ST 841: Statistical Practice Fall 2020
+This is Github repository that contains all the codes and reports of the project.
+
+**ST841 Statistical Practice I**
+* Instructor: Emily H. Griffith 
+* TA:  Lili Wu
+
 # This is the description of final files submitted by group 7
 
-Drew Hollis: anhollis@ncsu.edu
+* Drew Hollis: anhollis@ncsu.edu
 
-Xinyu Zhang: xzhang97@ncsu.edu
+* Xinyu Zhang: xzhang97@ncsu.edu
 
-Qiang Heng: qheng@ncsu.edu
+* Qiang Heng: qheng@ncsu.edu
 
 All useful materials are covered in the "ST841_Group7" folder, and
 
