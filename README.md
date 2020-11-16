@@ -4,7 +4,7 @@ This is Github repository that contains all the codes and reports of the project
 * Instructor: Emily H. Griffith 
 * TA:  Lili Wu
 
-## Group Mmber 
+## Group Member 
 
 * Drew Hollis: anhollis@ncsu.edu
 
@@ -14,18 +14,17 @@ This is Github repository that contains all the codes and reports of the project
 
 All useful materials are covered in the "ST841_Group7" folder, and
 
-
-1. The "reports" folder includes all write-ups including
+1. The ["reports"](https://github.com/xinyuz1996/TAA_Consulting/tree/master/ST841_Group7/reports) folder includes all write-ups including
 	- 1_Project_Intro.pdf
 	- 2_EDA.pdf
 	- 3_Visualization_Exercise 42,43,44.pdf
 	- 4_final_report.pdf
 
-2. The "codes_and_deliverable" includes the data and codes to regenerate all the analysis including
+2. The ["codes_and_deliverable"](https://github.com/xinyuz1996/TAA_Consulting/tree/master/ST841_Group7/codes_and_deliverable) includes the data and codes to regenerate all the analysis including
 	- markdown_report.Rmd
 	- initial_data.txt
 
-3. The "final_presentation.pdf" is also provided in case the need.
+3. The ["final_presentation.pdf"](https://github.com/xinyuz1996/TAA_Consulting/blob/master/ST841_Group7/final_presentation.pdf) is also provided in case the need.
 
 Besides, we also provide the access to :
 
