@@ -12,7 +12,9 @@ This is Github repository that contains all the codes and reports of the project
 
 * Qiang Heng: qheng@ncsu.edu
 
-All useful materials are covered in the "ST841_Group7" folder, and
+## Materials:
+
+All relevant files are in the ["ST841_Group7"](https://github.com/xinyuz1996/TAA_Consulting/tree/master/ST841_Group7) folder
 
 1. The ["reports"](https://github.com/xinyuz1996/TAA_Consulting/tree/master/ST841_Group7/reports) folder includes all write-ups including
 	- 1_Project_Intro.pdf
@@ -25,6 +27,8 @@ All useful materials are covered in the "ST841_Group7" folder, and
 	- initial_data.txt
 
 3. The ["final_presentation.pdf"](https://github.com/xinyuz1996/TAA_Consulting/blob/master/ST841_Group7/final_presentation.pdf) is also provided in case the need.
+
+## Access:
 
 Besides, we also provide the access to :
 
