@@ -1,7 +1,9 @@
 # This is the description of final files submitted by group 7
 
 Drew Hollis: anhollis@ncsu.edu
+
 Xinyu Zhang: xzhang97@ncsu.edu
+
 Qiang Heng: qheng@ncsu.edu
 
 1. The "reports" folder includes all write-ups including
