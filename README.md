@@ -23,6 +23,6 @@ All useful materials are covered in the "ST841_Group7" folder, and
 
 Besides, we also provide the access to :
 
-	1. [ST841_Group7's report in Overleaf:](https://www.overleaf.com/project/5f4aa7e3c670bd0001638ccc) 
+	1. ST841_Group7's report in [Overleaf:](https://www.overleaf.com/project/5f4aa7e3c670bd0001638ccc) 
 	
-	2. [Github folder:](https://github.com/xinyuz1996/TAA_Consulting/tree/master/ST841_Group7) 
+	2. ST841_Group7's files in [Github:](https://github.com/xinyuz1996/TAA_Consulting/tree/master/ST841_Group7) 
