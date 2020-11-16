@@ -1,0 +1,17 @@
+\babel@toc {english}{}
+\contentsline {section}{\numberline {1}Introduction}{1}%
+\contentsline {subsection}{\numberline {1.1}Data}{2}%
+\contentsline {subsection}{\numberline {1.2}Survey Details and Preliminary Data Transformation}{2}%
+\contentsline {section}{\numberline {2}Methodology}{3}%
+\contentsline {subsection}{\numberline {2.1}Creating Composite Scores from Multiple Likert Items}{3}%
+\contentsline {subsection}{\numberline {2.2}Missing Value Imputation}{4}%
+\contentsline {paragraph}{Survey data}{4}%
+\contentsline {paragraph}{Missing value for the original survey data:}{5}%
+\contentsline {paragraph}{AMELIA imputation method:}{7}%
+\contentsline {subsection}{\numberline {2.3}Multi-response (Multivariate) Linear Regression}{8}%
+\contentsline {subsection}{\numberline {2.4}Regression Trees}{10}%
+\contentsline {section}{\numberline {3}Results}{12}%
+\contentsline {subsection}{\numberline {3.1}Transformation of Likert Scale Data}{12}%
+\contentsline {subsection}{\numberline {3.2}Multi-response (Multivariate) Linear Regression Results}{13}%
+\contentsline {subsection}{\numberline {3.3}Regression Trees}{14}%
+\contentsline {section}{\numberline {4}Discussion}{17}%

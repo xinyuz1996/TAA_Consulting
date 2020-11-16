@@ -1,0 +1,71 @@
+\usepackage[pdftex]{graphicx}
+\usepackage[english]{babel}
+\usepackage{natbib}
+\usepackage{url}
+\usepackage[utf8x]{inputenc}
+\usepackage{soul}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{Mis/}}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{longtable}
+\usepackage{vmargin}
+\usepackage{chngpage}
+\usepackage{array}
+\usepackage{ulem}
+\usepackage[T1]{fontenc}
+\usepackage{booktabs}
+\usepackage{units}
+\usepackage{array}
+\usepackage{blindtext}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{listings}
+\usepackage{multirow}
+\usepackage{graphicx,wrapfig,lipsum}
+\usepackage{caption, fancyhdr}
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+\allowdisplaybreaks[1]
+
+\lstset{language=Matlab,%
+	%basicstyle=\color{red},
+	basicstyle=\tiny,
+	breaklines=true,%
+	morekeywords={matlab2tikz},
+	keywordstyle=\color{blue},%
+	morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+	identifierstyle=\color{black},%
+	stringstyle=\color{mylilas},
+	commentstyle=\color{mygreen},%
+	showstringspaces=false,%without this there will be a symbol in the places where there is a space
+	numbers=left,%
+	numberstyle={\tiny \color{black}},% size of the numbers
+	numbersep=9pt, % this defines how far the numbers are from the text
+	emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+	%emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
+
+\title{Consulting TAA}								% Title
+\author{Drew Hollis \\ Xinyu Zhang \\ Qiang Heng}
+% Author
+\date{\today}											% Date
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\theauthor}
+\lhead{\thetitle}
+\cfoot{\thepage}
