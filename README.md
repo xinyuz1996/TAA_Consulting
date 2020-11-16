@@ -25,4 +25,4 @@ Besides, we also provide the access to :
 
 	1. [ST841_Group7's report in Overleaf:](https://www.overleaf.com/project/5f4aa7e3c670bd0001638ccc) 
 	
-	2. [Github folder:] (https://github.com/xinyuz1996/TAA_Consulting/tree/master/ST841_Group7) 
+	2. [Github folder:](https://github.com/xinyuz1996/TAA_Consulting/tree/master/ST841_Group7) 
