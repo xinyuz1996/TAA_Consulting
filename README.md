@@ -22,5 +22,7 @@ All useful materials are covered in the "ST841_Group7" folder, and
 3. The "final_presentation.pdf" is also provided in case the need.
 
 Besides, we also provide the access to :
-	1. Overleaf: [Visit GitHub!](www.github.com) https://www.overleaf.com/project/5f4aa7e3c670bd0001638ccc
-	2. Github folder: [Visit GitHub!](www.github.com) https://github.com/xinyuz1996/TAA_Consulting
+
+	1. [ST841_Group7's report in Overleaf:](https://www.overleaf.com/project/5f4aa7e3c670bd0001638ccc) 
+	
+	2. [Github folder:] (https://github.com/xinyuz1996/TAA_Consulting/tree/master/ST841_Group7) 
