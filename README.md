@@ -1,7 +1,6 @@
 # ST 841: Statistical Practice Fall 2020
 This is Github repository that contains all the codes and reports of the project.
 
-**ST841 Statistical Practice I**
 * Instructor: Emily H. Griffith 
 * TA:  Lili Wu
 
