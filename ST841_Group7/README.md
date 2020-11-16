@@ -32,7 +32,7 @@ All relevant files are in the ["ST841_Group7"](https://github.com/xinyuz1996/TAA
 
 Besides, we also provide the access to :
 
-1. ST841_Group7's report in [Overleaf](https://www.overleaf.com/1127297544xgvhfpdqqrkn
-) 
+1. ST841_Group7's report in [Overleaf](https://www.overleaf.com/1127297544xgvhfpdqqrkn) 
+In case the above link https://www.overleaf.com/1127297544xgvhfpdqqrkn is not working, we also upload the files in Overleaf to the folder [”Overleaf“](https://github.com/xinyuz1996/TAA_Consulting/tree/master/ST841_Group7/Overleaf)
 	
 2. ST841_Group7's files in [Github](https://github.com/xinyuz1996/TAA_Consulting/tree/master/ST841_Group7) 
