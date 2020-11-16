@@ -14,6 +14,8 @@ Qiang Heng: qheng@ncsu.edu
 	- markdown_report.Rmd
 	- initial_data.txt
 
+3. The "final_presentation.pdf" is also provided in case the need.
+
 Besides, we also provide the access to :
 	1. Overleaf: https://www.overleaf.com/project/5f4aa7e3c670bd0001638ccc
 	2. Github folder: https://github.com/xinyuz1996/TAA_Consulting
