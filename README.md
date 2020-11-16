@@ -14,7 +14,7 @@ This is Github repository that contains all the codes and reports of the project
 
 ## Materials:
 
-All relevant files are in the ["ST841_Group7"](https://github.com/xinyuz1996/TAA_Consulting/tree/master/ST841_Group7) folder
+All relevant files are in the ["ST841_Group7"](https://github.com/xinyuz1996/TAA_Consulting/tree/master/ST841_Group7) folder.
 
 1. The ["reports"](https://github.com/xinyuz1996/TAA_Consulting/tree/master/ST841_Group7/reports) folder includes all write-ups including
 	- 1_Project_Intro.pdf
